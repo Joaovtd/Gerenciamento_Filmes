@@ -166,23 +166,52 @@
         .btn-primary:hover {
             background: #f6121d;
         }
+
+        #showTable,
+        #showCards {
+            border: none;
+            background-color: #e50914;
+            color: white;
+            padding: 4px 8px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+            text-transform: uppercase;
+        }
+
+        #showTable:hover,
+        #showCards:hover {
+            background-color: #f6121d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        #showTable:active,
+        #showCards:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+        }
     </style>
 </head>
 
 <body>
-    <header>
+    <header style="display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; background:#1f1f1f; color:white;">
         <h1>Admin - Gerenciamento de Filmes</h1>
-        <div style="margin-top:1rem; text-align:center;">
+        <div style="display:flex; gap:1rem; align-items:center;">
             <button id="showTable">Tabela</button>
             <button id="showCards">Cards</button>
+            <a href="{{ route('auth.logout') }}" style="background:#E50914; color:white; padding:0.5rem 1rem; border-radius:4px; text-decoration:none;">
+                Logout
+            </a>
         </div>
     </header>
 
-    <!-- Table -->
     <table id="moviesTable">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Título</th>
                 <th>Categoria</th>
                 <th>Ano</th>
@@ -192,13 +221,12 @@
         <tbody>
             @foreach($movies as $movie)
             <tr>
-                <td>{{ $movie->id }}</td>
                 <td>{{ $movie->title }}</td>
                 <td>{{ $movie->category->name }}</td>
                 <td>{{ $movie->year }}</td>
                 <td class="action-buttons">
-                    <a href="{{ route('movie.edit', $movie->id) }}"><button class="edit-btn">Editar</button></a>
-                    <form action="{{ route('movie.destroy', $movie->id) }}" method="POST" style="display:inline;">
+                    <a href="{{ route('admin.edit', $movie->id) }}"><button class="edit-btn">Editar</button></a>
+                    <form action="{{ route('admin.destroy', $movie->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="delete-btn">Excluir</button>
@@ -209,7 +237,6 @@
         </tbody>
     </table>
 
-    <!-- Cards -->
     <main class="movie-page" id="moviesCards">
         <div class="container">
             @foreach($movies as $movie)
@@ -219,7 +246,7 @@
                     <h2 class="title">{{ $movie->title }}</h2>
                     <p class="category">{{ $movie->category->name }}</p>
                     <p class="synopsis">{{ $movie->synopsis }}</p>
-                    <a href="{{ $movie->link }}" class="btn-primary" target="_blank">🎥 Watch Trailer</a>
+                    <a href="{{ $movie->link }}" class="btn-primary" target="_blank">🎥 Ver trailer</a>
                 </div>
             </div>
             @endforeach

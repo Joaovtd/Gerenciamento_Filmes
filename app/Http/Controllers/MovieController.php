@@ -78,7 +78,7 @@ class MovieController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateMovieRequest $request)
+    public function adminUpdate(UpdateMovieRequest $request)
     {
         $data = $request->validated();
         $movie = Movie::find($request->id);
@@ -92,7 +92,7 @@ class MovieController extends Controller
         }
         $movie->update($data);
 
-        return redirect()->route('show', $movie->id);
+        return redirect()->route("admin.index");
     }
 
     /**
@@ -126,5 +126,47 @@ class MovieController extends Controller
         return view("search", [
             "movies" => $movies
         ]);
+    }
+
+    /**
+     * Página de listagem para admin
+     */
+    public function adminIndex()
+    {
+        $movies = Movie::all();
+        return view('admin.index', [
+            "movies" => $movies
+        ]);
+    }
+
+    /**
+     * Página de criação para admin
+     */
+    public function adminCreate()
+    {
+        return view('admin.create', [
+            "categories" => Category::all()->toArray(),
+        ]);
+    }
+
+    /**
+     * Página de edição para admin
+     */
+    public function adminEdit(Movie $movie)
+    {
+        $categories = Category::all()->toArray();
+        return view('admin.edit', [
+            "movie" => $movie,
+            "categories" => $categories
+        ]);
+    }
+
+    /**
+     * Excluir filme (admin)
+     */
+    public function adminDestroy(Movie $movie)
+    {
+        $movie->delete();
+        return redirect()->route("admin.index");
     }
 }
