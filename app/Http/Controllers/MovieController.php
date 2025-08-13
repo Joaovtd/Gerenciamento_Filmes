@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreMovieRequest;
 use App\Http\Requests\UpdateMovieRequest;
+use Illuminate\Support\Facades\Auth;
 
 class MovieController extends Controller
 {
@@ -49,7 +50,10 @@ class MovieController extends Controller
 
         $movie = Movie::create($data);
 
-        return redirect()->route('show', $movie->id);
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            return redirect()->route('admin.index');
+        }
+        return redirect()->route('index');
     }
 
     /**

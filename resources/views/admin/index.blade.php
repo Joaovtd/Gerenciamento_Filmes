@@ -203,6 +203,10 @@
         <div style="display:flex; gap:1rem; align-items:center;">
             <button id="showTable">Tabela</button>
             <button id="showCards">Cards</button>
+            <a href="{{ route('admin.create') }}" style="background:#E50914; color:white; padding:0.5rem 1rem; border-radius:4px; text-decoration:none;">
+                Adicionar filme Filme
+            </a>
+            ||
             <a href="{{ route('auth.logout') }}" style="background:#E50914; color:white; padding:0.5rem 1rem; border-radius:4px; text-decoration:none;">
                 Logout
             </a>

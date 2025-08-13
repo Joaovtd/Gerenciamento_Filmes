@@ -77,7 +77,7 @@
     <header>🎬 Capybara Cinema - Adicionar Filme</header>
     <main>
         <h1>Cadastrar Novo Filme</h1>
-        <form action="{{ route('movie.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label for="title">Título</label>
@@ -106,10 +106,6 @@
             <div class="form-group">
                 <label for="cover">Capa</label>
                 <input type="file" name="cover" id="cover">
-            </div>
-            <div class="form-group">
-                <label for="banner">Banner</label>
-                <input type="file" name="banner" id="banner">
             </div>
             <div style="flex-basis: 100%; display: flex; gap: 1rem;">
                 <button type="reset">Resetar</button>
