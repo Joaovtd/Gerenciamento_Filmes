@@ -23,8 +23,8 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin'
         ]);
 
-        $this->call([
-            CategorySeeder::class
-        ]);
+        // $this->call([
+        //     CategorySeeder::class
+        // ]);
     }
 }
