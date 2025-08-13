@@ -17,14 +17,18 @@ class MovieController extends Controller
     public function index()
     {
         $movies = Movie::all();
-        return view('movie.index', compact('movies'));
+        $categories = Category::all();
+        return view('index', [
+            "movies" => $movies,
+            "categories" => $categories
+        ]);
     }
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('movies.create', [
+        return view('create', [
             "categories" => Category::all()->toArray(),
         ]);
     }
@@ -45,17 +49,16 @@ class MovieController extends Controller
 
         $movie = Movie::create($data);
 
-        return redirect()->route('movie.show', $movie->id);
+        return redirect()->route('show', $movie->id);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Movie $movie)
+    public function show(int $id)
     {
-        $movie = Movie::findOrFail($movie->id);
-
-        return view('movies.index', [
+        $movie = Movie::findOrFail($id);
+        return view('show', [
             "movie" => $movie
         ]);
     }
@@ -66,7 +69,7 @@ class MovieController extends Controller
     public function edit(Movie $movie)
     {
         $categorias = Category::all()->toArray();
-        return view('movies.edit', [
+        return view('edit', [
             "categories" => $categorias,
             "movie" => $movie
         ]);
@@ -89,7 +92,7 @@ class MovieController extends Controller
         }
         $movie->update($data);
 
-        return redirect()->route('movie.show', $movie->id);
+        return redirect()->route('show', $movie->id);
     }
 
     /**
@@ -98,18 +101,30 @@ class MovieController extends Controller
     public function destroy(Movie $movie)
     {
         $movie->delete();
-        return redirect()->route("movie.index");
+        return redirect()->route("index");
     }
 
-        public function search(Request $request)
+    public function search(Request $request)
     {
-        $search_term = '%' . $request->input('text') . '%';
+        $query = Movie::query();
 
-        $movies = Movie::where('title', 'like', $search_term)->get();
+        if ($request->filled('title')) {
+            $searchTerm = '%' . $request->input('title') . '%';
+            $query->where('title', 'like', $searchTerm);
+        }
 
-        return view("movie.search", [
+        if ($request->filled('year')) {
+            $query->where('year', $request->input('year'));
+        }
+
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->input('category_id'));
+        }
+
+        $movies = $query->get();
+
+        return view("search", [
             "movies" => $movies
         ]);
     }
-
 }
