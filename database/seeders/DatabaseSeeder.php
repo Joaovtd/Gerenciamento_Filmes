@@ -19,12 +19,13 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'teste',
             'email' => 'test@example.com',
-            'password' => Hash::make("admin"),
+            'password' => Hash::make("123"),
             'role' => 'admin'
         ]);
 
-        // $this->call([
-        //     CategorySeeder::class
-        // ]);
+        $this->call([
+            CategorySeeder::class,
+            MovieSeeder::class
+        ]);
     }
 }
