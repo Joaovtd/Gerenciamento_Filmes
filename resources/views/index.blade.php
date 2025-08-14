@@ -22,6 +22,12 @@
             padding: 0;
         }
 
+        h1 {
+            padding-left: 5px;
+            color: #e50914;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
         a {
             color: var(--accent);
             text-decoration: none;
